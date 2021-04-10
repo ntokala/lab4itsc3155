@@ -165,20 +165,67 @@ function fetchComments($id) {
 function setComment($id) {
 
     //TODO complete implementation using the product id
-    alert("app.js/setComment() not implemented")
 
     //HINT
     //Take note of how the Ajax call in app.js/fetchComments() posts a GET request to corresponding API endpoint.
     //Look at the Microservice API Documentation and find out the appripriate type of request for this action.
 
+    let comment =$.trim($('#message-text').val());
+    let score=$.trim($('#score').val());
+    
+    if (comment != '') {
+        $.ajax({
+            url: Url + 'SetComment',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(
+                {
+                    "product_id":$id,
+                    "comment": comment,
+                    "score":score
+                }
+            ),
+            contentType: 'text/plain',
+            success: function (data) { //on success
+               alert("Comment posted!");
+            },
+            error: function (data) { //on error, throw an alert
+                alert("Error while sending data.");
+            }
+        });
+    } else {
+        alert("Please fill out the comment box");
+    }
+    
 }
 
 function addToCart($id) {
 
     //TODO complete implementation using the product id
-    alert("app.js/addToCart() not implemented")
+    let email =$.trim($('#email').val()); //gets the user's email
 
-
+    if( email !='' ) {
+        $.ajax({
+            url: Url + 'AddToCart',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(
+                {
+                    "product_id":$id,
+                    "email":email
+                }
+            ),
+            contentType: 'text/plain',
+            success: function (data) { //on success
+               alert("Added item to cart!");
+            },
+            error: function (data) { //on error, throw an alert
+                alert("Error while sending data.");
+            }
+        });
+    } else {
+        alert("Please enter your email at top of page."); //alert user since email is empty
+    }
 }
 
 function toShoppingCart(){
